@@ -1,24 +1,31 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowDown, ArrowUpRight, Apple, Mountain, Heart, Utensils, Leaf, PawPrint, Baby, Wifi, Car } from "lucide-react";
+import { BookingBand } from "@/components/SiteShell";
+import { hotelJsonLd, pageHead, photos, whatsappHref } from "@/lib/site";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({ ...pageHead("Oaktree Homestay Kumarsain | Himalayan Stay Near Narkanda", "Discover Oaktree Homestay in Kumarsain: a peaceful family homestay near Narkanda with mountain views, orchard surroundings and home-cooked food.", "/"), scripts: [{ type: "application/ld+json", children: JSON.stringify(hotelJsonLd) }] }),
+  component: HomePage,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
+function HomePage() {
+  const reasons = [[Apple,"Apple orchard surroundings"],[Mountain,"Himalayan mountain views"],[Heart,"Warm family hospitality"],[Utensils,"Fresh home-cooked food"],[Leaf,"Peaceful natural setting"],[PawPrint,"Pet-friendly"],[Baby,"Child-friendly"],[Wifi,"Free Wi-Fi"],[Car,"Complimentary parking"]] as const;
+  return <>
+    <section className="relative flex min-h-[94svh] items-end overflow-hidden bg-forest text-primary-foreground">
+      <img src={photos.greenValley} alt="Green Himalayan valley viewed from Oaktree Homestay in Kumarsain" className="absolute inset-0 h-[110%] w-full object-cover animate-veil"/>
+      <div className="absolute inset-0 bg-gradient-to-r from-forest/90 via-forest/38 to-transparent"/><div className="absolute inset-0 bg-gradient-to-t from-forest/75 via-transparent to-forest/25"/>
+      <div className="relative mx-auto w-full max-w-[1500px] px-6 pb-16 pt-40 lg:px-10 lg:pb-20">
+        <p className="mb-6 inline-flex border border-primary-foreground/35 px-4 py-2 text-[0.66rem] font-bold uppercase tracking-[0.25em] animate-rise">Kumarsain <span className="mx-2 text-gold">•</span> Himachal Pradesh</p>
+        <h1 className="max-w-5xl font-display text-[3.55rem] leading-[.88] text-balance animate-rise sm:text-7xl lg:text-[7.4rem]">Find Your Quiet Corner in the Himalayas</h1>
+        <div className="mt-8 flex max-w-4xl flex-col gap-8 lg:flex-row lg:items-end lg:justify-between"><p className="max-w-xl text-base leading-8 text-primary-foreground/82 lg:text-lg">A peaceful mountain homestay surrounded by apple orchards, greenery and the warmth of a true Himachali home.</p><div className="flex flex-wrap gap-3"><a href={whatsappHref} target="_blank" rel="noreferrer" className="bg-cream px-6 py-4 text-xs font-bold uppercase tracking-[0.16em] text-forest">Book your stay</a><a href="#welcome" className="flex items-center gap-3 border border-primary-foreground/45 px-6 py-4 text-xs font-bold uppercase tracking-[0.16em]">Explore Oaktree <ArrowDown size={16}/></a></div></div>
+      </div>
+    </section>
+    <section id="welcome" className="mx-auto grid max-w-[1400px] gap-12 px-6 py-24 lg:grid-cols-[.9fr_1.1fr] lg:items-center lg:px-10 lg:py-36">
+      <div className="order-2 lg:order-1"><p className="text-xs font-bold uppercase tracking-[0.25em] text-wood">Welcome to Oaktree Homestay</p><h2 className="mt-5 max-w-2xl font-display text-5xl leading-none lg:text-7xl">A slower rhythm, shaped by the mountains.</h2><p className="mt-7 max-w-xl text-base leading-8 text-muted-foreground">Set in peaceful Kumarsain, Oaktree is a serene mountain retreat surrounded by lush greenery, fruit orchards and wide Himalayan landscapes. Here, mornings begin with changing light on the hills and days unfold with the warmth of a family-run home.</p><Link to="/about" className="mt-8 inline-flex items-center gap-2 border-b border-foreground pb-2 text-xs font-bold uppercase tracking-[0.18em]">Our story <ArrowUpRight size={16}/></Link></div>
+      <div className="image-zoom order-1 aspect-[4/5] lg:order-2"><img src={photos.balconyReflection} alt="Oaktree Homestay balcony and rooms reflecting the Himalayan landscape" className="h-full w-full object-cover"/></div>
+    </section>
+    <section className="bg-forest py-24 text-primary-foreground lg:py-36"><div className="mx-auto max-w-[1400px] px-6 lg:px-10"><div className="grid gap-12 lg:grid-cols-[1fr_1.2fr]"><div><p className="text-xs font-bold uppercase tracking-[0.25em] text-gold">Why Oaktree</p><h2 className="mt-5 font-display text-5xl leading-none lg:text-7xl">The hills, as they are meant to be felt.</h2></div><p className="self-end max-w-xl text-base leading-8 text-primary-foreground/70">Simple comforts, generous hospitality and a deep sense of place make Oaktree an easy base for rest, connection and unhurried Himalayan days.</p></div><div className="mt-16 grid gap-px bg-primary-foreground/15 sm:grid-cols-2 lg:grid-cols-3">{reasons.map(([Icon,label],i) => <div key={label} className="group bg-forest p-7 transition-colors hover:bg-forest-soft"><Icon className="text-gold" size={24}/><p className="mt-7 font-display text-2xl">{label}</p><span className="mt-5 block text-xs text-primary-foreground/40">0{i+1}</span></div>)}</div></div></section>
+    <section className="grid min-h-[80vh] lg:grid-cols-2"><div className="image-zoom min-h-[55vh]"><img src={photos.orchardGathering} alt="Guests sharing a meal in the orchard garden at Oaktree Homestay" className="h-full w-full object-cover"/></div><div className="flex items-center bg-secondary px-8 py-20 lg:px-20"><div><p className="text-xs font-bold uppercase tracking-[0.25em] text-wood">Stay close to nature</p><h2 className="mt-5 font-display text-5xl leading-none lg:text-7xl">Room to breathe. Time to belong.</h2><p className="mt-7 max-w-xl leading-8 text-muted-foreground">Step into orchard shade, linger over home-cooked food, or simply watch the weather move across the valley. Oaktree is made for the kind of travel that leaves space for stillness.</p><div className="mt-9 flex flex-wrap gap-3"><Link to="/experiences" className="bg-primary px-6 py-4 text-xs font-bold uppercase tracking-widest text-primary-foreground">Explore experiences</Link><Link to="/gallery" className="border border-foreground px-6 py-4 text-xs font-bold uppercase tracking-widest">View gallery</Link></div></div></div></section>
+    <BookingBand/>
+  </>;
 }
